@@ -1,7 +1,7 @@
 const React = require('react');
 const {PropTypes} = React;
 
-const {Slide} = require('spectacle');
+const {Slide, Notes} = require('spectacle');
 const CodeSlideTitle = require('./CodeSlideTitle');
 const CodeSlideNote = require('./CodeSlideNote');
 const CodeSlideImage = require('./CodeSlideImage');
@@ -56,7 +56,8 @@ class CodeSlide extends React.Component {
       title: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
       note: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
     })),
-    showLineNumbers: PropTypes.bool
+    showLineNumbers: PropTypes.bool,
+    slideNotes: PropTypes.instanceOf(Notes)
   };
 
   static defaultProps = {
@@ -188,7 +189,7 @@ class CodeSlide extends React.Component {
   }
 
   render() {
-    const {code, lang, ranges, color, bgColor, notes, showLineNumbers, ...rest} = this.props;
+    const {code, lang, ranges, color, bgColor, notes, showLineNumbers, slideNotes, ...rest} = this.props;
     const {active} = this.state;
 
     const range = ranges[active] || {};
@@ -220,6 +221,7 @@ class CodeSlide extends React.Component {
         {range.note && <CodeSlideNote>{range.note}</CodeSlideNote>}
 
         {range.image && <CodeSlideImage src={range.image}/>}
+        {slideNotes}
       </Slide>
     );
   }
